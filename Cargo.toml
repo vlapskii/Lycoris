@@ -1,0 +1,9 @@
+[package]
+name = "Lycoris"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+diesel = {version = "2.2.7", features = ["mysql"]}
+rocket = "0.5.1"
+askama = "0.12.0"
