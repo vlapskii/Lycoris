@@ -1,0 +1,113 @@
+import { LineEdit, VerticalBox, Button } from "std-widgets.slint";
+
+export component MainWindow inherits Window {
+    in-out property <string> title_window;
+    in-out property <bool> is_logged;
+    in-out property <string> login_text;
+    in-out property <string> password_text;
+    in-out property <string> reason;
+
+    callback login(string, string);
+
+    title: title_window;
+    width: 768px;
+    height: 512px;
+
+    if is_logged : HorizontalLayout {
+    alignment: center;
+        VerticalBox {
+        alignment: center;
+            Text {
+                text: "???";
+            }
+        }
+    }
+    if !is_logged : HorizontalLayout {
+    alignment: center;
+        VerticalLayout {
+        spacing: 5px;
+        alignment: center;
+            LineEdit {
+                width: 250px;
+                height: 35px;
+                placeholder-text: "логин";
+                edited(text) => {
+                    root.login_text = text;
+                }
+            }
+            LineEdit {
+                width: 250px;
+                height: 35px;
+                placeholder-text: "пароль";
+                input-type: password;
+                edited(text) => {
+                    root.password_text = text;
+                }
+            }
+            Button {
+                width: 250px;
+                height: 30px;
+                text: "войти";
+                clicked => {
+                    login(root.login_text, root.password_text);
+                }
+            }
+            Text {
+                text: root.reason;
+                color: red;
+                horizontal-alignment: center;
+            }
+        }
+    }
+}
+
+export component LoginWindow inherits Window {
+    title: "Авторизация в ИС";
+    width: 400px;
+    height: 200px;
+    out property <bool> logged_in;
+    in-out property <string> reason;
+    in-out property <string> login_text;
+    in-out property <string> password_text;
+    callback login(string, string);
+
+    HorizontalLayout {
+    alignment: center;
+        VerticalLayout {
+        spacing: 5px;
+        alignment: center;
+            LineEdit {
+                width: 250px;
+                height: 35px;
+                placeholder-text: "логин";
+                text: root.login_text;
+                edited() => {
+                    root.login_text = self.text;
+                }
+            }
+            LineEdit {
+                width: 250px;
+                height: 35px;
+                placeholder-text: "пароль";
+                input-type: password;
+                text: root.password_text;
+                edited() => {
+                    root.password_text = self.text;
+                }
+            }
+            Button {
+                width: 250px;
+                height: 30px;
+                text: "войти";
+                clicked => {
+                    root.login(login_text, password_text);
+                }
+            }
+            Text {
+                text: root.reason;
+                color: red;
+                horizontal-alignment: center;
+            }
+        }
+    }
+}
